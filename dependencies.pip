@@ -6,3 +6,4 @@ django-annoying==0.7.4
 django-extensions==0.5
 ipython==0.10.1
 ipdb==0.2
+pyftpdlib==0.5.2
