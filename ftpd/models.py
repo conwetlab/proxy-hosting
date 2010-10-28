@@ -6,8 +6,10 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 def create_user_dir(sender, **kwargs):
-    username = kwargs['instance'].username
-    home_dir = os.path.join(settings.FTP_BASE, username)
-    os.mkdir(home_dir)
+    user = kwargs['instance']
+    if not user.is_superuser:
+        home_dir = os.path.join(settings.FTP_BASE, user.username)
+        if not os.path.exists(home_dir):
+            os.mkdir(home_dir)
 
 post_save.connect(create_user_dir,sender=User)
