@@ -7,6 +7,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+    (r'^proxy', include('proxy.urls')),
     (r'^(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': FTP_BASE, 'show_indexes': True }),
 )

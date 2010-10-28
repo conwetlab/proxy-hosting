@@ -104,8 +104,10 @@ INSTALLED_APPS = (
     'south',
     'django_extensions',
     'ftpd',
+    'proxy',
 )
 
+NOT_PROXY_FOR = ('localhost', '127.0.0.1')
 
 try:
     from settings_local import *
