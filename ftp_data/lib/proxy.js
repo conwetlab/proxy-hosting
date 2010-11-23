@@ -8,18 +8,30 @@ var Proxy = {};
  *   params  see http://api.prototypejs.org/ajax/ajax/request/
  */
 Proxy.send = function(url, params) {
-    var method = params.method || "post";
-    delete params.method;
-    
-    var requestParameters = params.parameters;
-    delete params.parameters; 
-    
-    params.parameters = {
-        "url": url,
-        "method": method,
-        "params": requestParameters
-    };
-    params.method = "POST";
-    
-    new Ajax.Request("/proxy", params);
+    new Ajax.Request(Proxy.buildProxyURL(url), params);
+}
+
+
+Proxy.buildProxyURL = function(url) {
+        var final_url = url;
+
+        var protocolEnd = url.indexOf('://');
+        if (protocolEnd != -1) {
+                var domainStart = protocolEnd + 3;
+                var pathStart = url.indexOf('/', domainStart);
+                if (pathStart == -1) {
+                    pathStart = url.length;
+                }
+
+                var protocol = url.substr(0, protocolEnd);
+                var domain = url.substr(domainStart, pathStart - domainStart);
+                var rest = url.substring(pathStart);
+
+                final_url = "/proxy" + '/' +
+                            encodeURIComponent(protocol) + '/' +
+                            encodeURIComponent(domain) + rest;
+        }   
+
+        return final_url;
+
 }
